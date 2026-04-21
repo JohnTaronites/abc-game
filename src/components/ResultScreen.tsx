@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { accuracyToStars } from '../utils/accuracy';
+import { playFeedback } from '../utils/audio';
 
 interface ResultScreenProps {
   letterLabel: string;
@@ -21,9 +22,12 @@ const ResultScreen: React.FC<ResultScreenProps> = ({
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
-    const t = setTimeout(() => setAnimate(true), 100);
+    const t = setTimeout(() => {
+      setAnimate(true);
+      playFeedback(passed ? 'great_job' : 'try_again');
+    }, 100);
     return () => clearTimeout(t);
-  }, []);
+  }, [passed]);
 
   return (
     <div className={`result-screen ${animate ? 'visible' : ''}`}>

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { QuestionData, AnswerOption } from '../types';
+import { playWord, playFeedback } from '../utils/audio';
 
 interface MiniGameProps {
   question: QuestionData;
@@ -13,11 +14,21 @@ const MiniGame: React.FC<MiniGameProps> = ({ question, letterColor, onComplete }
   const [answerState, setAnswerState] = useState<AnswerState>('idle');
   const [selectedOption, setSelectedOption] = useState<AnswerOption | null>(null);
 
+  // Play the correct word when the question appears (short delay so UI renders first)
+  useEffect(() => {
+    const correctWord = question.options.find(o => o.isCorrect)?.text;
+    if (correctWord) {
+      const t = setTimeout(() => playWord(correctWord), 300);
+      return () => clearTimeout(t);
+    }
+  }, [question]);
+
   const handleAnswer = (option: AnswerOption) => {
-    if (answerState !== 'idle') return; // prevent double-click
+    if (answerState !== 'idle') return;
     setSelectedOption(option);
-    setAnswerState(option.isCorrect ? 'correct' : 'wrong');
-    // Give the user a moment to see the feedback, then proceed
+    const result = option.isCorrect ? 'correct' : 'wrong';
+    setAnswerState(result);
+    playFeedback(result);
     setTimeout(() => onComplete(option.isCorrect), 1400);
   };
 

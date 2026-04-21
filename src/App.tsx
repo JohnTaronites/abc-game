@@ -3,6 +3,7 @@ import type { AppState, LetterProgress } from './types';
 import { LETTERS } from './data/letters';
 import { QUESTIONS } from './data/questions';
 import { accuracyToStars } from './utils/accuracy';
+import { playWord } from './utils/audio';
 import GameMenu from './components/GameMenu';
 import CanvasTracer from './components/CanvasTracer';
 import ResultScreen from './components/ResultScreen';
@@ -53,6 +54,8 @@ export default function App() {
   const selectLetter = useCallback((index: number) => {
     setState(s => ({ ...s, phase: 'tracing', currentLetterIndex: index, attempts: 0, accuracy: 0 }));
     setTracerKey(k => k + 1);
+    // Announce the letter's example word (e.g. "Apple" for A)
+    setTimeout(() => playWord(LETTERS[index].word), 400);
   }, []);
 
   const handleCheck = useCallback((accuracy: number) => {
