@@ -33,7 +33,7 @@ const CanvasTracer: React.FC<CanvasTracerProps> = ({ letterData, showHint, onChe
 
   // Pre-compute checkpoints and total guide path length
   const checkpoints = useMemo(
-    () => generateCheckpoints(letterData.strokes, CW, CH),
+    () => generateCheckpoints(letterData.strokes),
     [letterData],
   );
   const totalLength = useMemo(

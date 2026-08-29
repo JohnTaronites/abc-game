@@ -58,6 +58,14 @@ export function playWord(word: string): void {
   if (file) play(`audio/words/${file}.mp3`);
 }
 
+/**
+ * Play a number clip. The routes are intentionally ready now, even though the
+ * matching files can be added later under public/audio/numbers/.
+ */
+export function playNumber(value: string): void {
+  play(`audio/numbers/${value}.mp3`);
+}
+
 export type FeedbackSound = 'correct' | 'wrong' | 'great_job' | 'try_again';
 
 /** Play a feedback clip, e.g. playFeedback('great_job') */

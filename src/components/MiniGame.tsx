@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { QuestionData, AnswerOption } from '../types';
-import { playWord, playFeedback } from '../utils/audio';
+import { playWord, playNumber, playFeedback } from '../utils/audio';
 
 interface MiniGameProps {
   question: QuestionData;
@@ -16,9 +16,13 @@ const MiniGame: React.FC<MiniGameProps> = ({ question, letterColor, onComplete }
 
   // Play the correct word when the question appears (short delay so UI renders first)
   useEffect(() => {
+    const audioKey = question.audioKey;
     const correctWord = question.options.find(o => o.isCorrect)?.text;
-    if (correctWord) {
-      const t = setTimeout(() => playWord(correctWord), 300);
+    if (audioKey || correctWord) {
+      const t = setTimeout(() => {
+        if (audioKey) playNumber(audioKey);
+        else if (correctWord) playWord(correctWord);
+      }, 300);
       return () => clearTimeout(t);
     }
   }, [question]);
@@ -51,6 +55,13 @@ const MiniGame: React.FC<MiniGameProps> = ({ question, letterColor, onComplete }
           {question.letter}
         </span>
         <p className="minigame-question">{question.question}</p>
+        {question.itemsToCount && (
+          <div className="counting-items" aria-label={`${question.itemsToCount.length} items to count`}>
+            {question.itemsToCount.map((emoji, index) => (
+              <span key={index} className="counting-item">{emoji}</span>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="options-grid">

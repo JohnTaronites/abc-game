@@ -4,7 +4,7 @@ import type { Point, Stroke, Checkpoint } from '../types';
  * Auto-generates checkpoints from letter strokes by interpolating
  * evenly-spaced sample points along each stroke.
  */
-export function generateCheckpoints(strokes: Stroke[], _canvasW?: number, _canvasH?: number): Checkpoint[] {
+export function generateCheckpoints(strokes: Stroke[]): Checkpoint[] {
   const SAMPLES_PER_STROKE = 14; // more checkpoints = finer validation
   const RADIUS = 0.07;           // ~25px on 360px canvas — tighter hit zone
   const checkpoints: Checkpoint[] = [];

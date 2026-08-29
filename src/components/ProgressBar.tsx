@@ -2,7 +2,7 @@ import React from 'react';
 import type { LetterData } from '../types';
 
 interface ProgressBarProps {
-  letters: LetterData[];
+  letters: Pick<LetterData, 'letter'>[];
   currentIndex: number;
 }
 

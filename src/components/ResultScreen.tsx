@@ -4,6 +4,7 @@ import { playFeedback } from '../utils/audio';
 
 interface ResultScreenProps {
   letterLabel: string;
+  labelName?: string;
   accuracy: number;
   attempts: number;
   onRetry: () => void;
@@ -12,6 +13,7 @@ interface ResultScreenProps {
 
 const ResultScreen: React.FC<ResultScreenProps> = ({
   letterLabel,
+  labelName = 'Letter',
   accuracy,
   attempts,
   onRetry,
@@ -44,7 +46,7 @@ const ResultScreen: React.FC<ResultScreenProps> = ({
           </>
         )}
 
-        <p className="result-letter">Letter {letterLabel}</p>
+        <p className="result-letter">{labelName} {letterLabel}</p>
 
         {/* Accuracy bar */}
         <div className="accuracy-container">

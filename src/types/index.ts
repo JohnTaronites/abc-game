@@ -35,10 +35,16 @@ export interface QuestionData {
   letter: string;
   question: string;
   options: AnswerOption[];
+  /** Optional row of items to count in a number question. */
+  itemsToCount?: string[];
+  /** Audio file key (without extension) used by number questions. */
+  audioKey?: string;
 }
 
 // Game phase
-export type GamePhase = 'menu' | 'tracing' | 'result' | 'minigame';
+export type GamePhase = 'mode-select' | 'menu' | 'tracing' | 'result' | 'minigame';
+
+export type GameMode = 'abc' | 'numbers';
 
 // Progress stored per letter (stars 0-3)
 export type LetterProgress = Record<string, number>;
@@ -46,6 +52,7 @@ export type LetterProgress = Record<string, number>;
 // Full app state
 export interface AppState {
   phase: GamePhase;
+  mode: GameMode | null;
   currentLetterIndex: number;
   accuracy: number;
   attempts: number;
